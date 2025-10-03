@@ -1,0 +1,8 @@
+              precision    recall  f1-score   support
+
+   STARBURST       0.78      0.71      0.75      5001
+ STARFORMING       0.91      0.93      0.92     14999
+
+    accuracy                           0.88     20000
+   macro avg       0.84      0.82      0.83     20000
+weighted avg       0.88      0.88      0.88     20000

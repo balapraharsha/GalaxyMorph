@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Morphology Classifier</title>
+    <!-- Load Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font and base styling */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            /* Replace the URL below with your high-resolution galaxy background image */
+            background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+            background-size: cover; 
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        /* Input styling base - Converted from @apply to standard CSS */
+        .input-field {
+            margin-top: 0.25rem; /* mt-1 */
+            display: block; /* block */
+            width: 100%; /* w-full */
+            padding-left: 0.75rem; /* px-3 */
+            padding-right: 0.75rem; /* px-3 */
+            padding-top: 0.5rem; /* py-2 */
+            padding-bottom: 0.5rem; /* py-2 */
+            background-color: rgba(17, 24, 39, 0.7); /* bg-gray-900/70 */
+            border: 1px solid rgba(168, 85, 247, 0.5); /* border border-purple-500/50 (using hex and opacity for compatibility) */
+            border-radius: 0.5rem; /* rounded-lg */
+            color: #f3f4f6; /* text-gray-100 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-sm */
+            transition: all 150ms ease-in-out; /* transition duration-150 */
+        }
+        
+        /* Focus styles are kept as Tailwind classes directly on the element for simplicity, 
+           or could be added here if necessary using standard CSS :focus rules. */
+
+        /* Focus on the main container for better visibility */
+        .galaxy-card {
+            background-color: rgba(17, 24, 39, 0.95); /* Slightly transparent dark background */
+            backdrop-filter: blur(8px); /* Subtle blur effect on background */
+            border: 2px solid #5b21b6; /* Deep purple border */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="galaxy-card p-8 rounded-2xl shadow-2xl w-full max-w-xl border border-indigo-500/30">
+        <h1 class="text-4xl font-extrabold text-white text-center mb-4 tracking-wider">
+            Cosmic Classifier
+        </h1>
+        <p class="text-sm text-gray-300 text-center mb-8">
+            Input the 30 photometric and structural properties of the distant galaxy.
+            <strong class="text-yellow-400 block mt-2">
+                {% if feature_names|length != 30 %}
+                    WARNING: Currently using {{ feature_names|length }} features.
+                    The final model requires exactly 30 inputs.
+                {% endif %}
+            </strong>
+        </p>
+
+        <!-- Prediction Result/Error Display -->
+        {% if prediction_result %}
+        <div class="bg-teal-600/30 text-teal-300 p-4 rounded-lg mb-6 border border-teal-500/50">
+            <h2 class="font-bold text-lg">Prediction Confirmed</h2>
+            <p class="mt-1 text-xl tracking-wide">{{ prediction_result }}</p>
+        </div>
+        {% endif %}
+
+        {% if error_message %}
+        <div class="bg-red-600/30 text-red-300 p-4 rounded-lg mb-6 border border-red-500/50">
+            <h2 class="font-bold text-lg">Input Error</h2>
+            <p class="mt-1">{{ error_message }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Input Form (Dynamically generated) -->
+        <form method="POST" action="/" class="space-y-4">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {% for feature in feature_names %}
+                <div class="text-center"> <!-- Center alignment for label and input -->
+                    <!-- Capitalize and replace underscore for cleaner labels -->
+                    <label for="{{ feature }}" class="block text-sm font-medium text-gray-200">
+                        {{ feature|replace('_', ' ')|capitalize }} 
+                        <span class="block text-xs text-purple-300 opacity-80 mt-0.5">
+                            Min: {{ feature_ranges[feature][0] | round(2) }} | Max: {{ feature_ranges[feature][1] | round(2) }}
+                        </span>
+                    </label>
+                    
+                    <input type="number" step="any" 
+                           min="{{ feature_ranges[feature][0] }}" 
+                           max="{{ feature_ranges[feature][1] }}" 
+                           name="{{ feature }}" id="{{ feature }}" required
+                           class="input-field focus:ring-pink-500 focus:border-pink-500 text-center">
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 mt-6 bg-purple-600 hover:bg-purple-700 rounded-lg text-white font-semibold text-lg 
+                           transition duration-200 ease-in-out transform hover:scale-[1.01] shadow-xl shadow-purple-500/40">
+                <div class="flex items-center justify-center space-x-2">
+                    <!-- Star icon for style -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-yellow-300">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Analyze Galaxy</span>
+                </div>
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

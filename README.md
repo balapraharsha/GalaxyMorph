@@ -1,7 +1,7 @@
 # 🌌 GalaxyMorph
 
-AI-powered Python/Flask application for automated classification of galaxy morphology from photometric data.
-Classifies galaxies into **STARBURST**,** STARFORMING**, and other subclasses using a Random Forest Classifier.
+AI-powered Python/Flask application for automated classification of galaxy morphology from photometric data.<br>
+Classifies galaxies into **STARBURST**,**STARFORMING**, and other subclasses using a Random Forest Classifier.
 
 ----
 
@@ -63,7 +63,7 @@ GalaxyMorph/
 git clone https://github.com/balapraharsha/GalaxyMorph.git
 cd GalaxyMorph/Python\ Executable\ Files
 ```
---
+---
 
 **Create virtual environment & activate**
 ```bash
@@ -73,27 +73,27 @@ venv\Scripts\activate
 # Mac/Linux
 source venv/bin/activate
 ```
---
+---
 
 **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
---
+---
 
 **Run the Flask app**
 ```bash
 python app/app.py
 ```
---
+---
 
 **Open in browser**
 - As given local host
 
 
----
+----
 
-##🖥️ Functionalities
+## 🖥️ Functionalities
 - Upload galaxy features manually or from CSV
 - Predict galaxy subclass (STARBURST, STARFORMING, etc.)
 - View predicted class & confidence score
@@ -101,7 +101,7 @@ python app/app.py
 
 ---
 
-##📊 Model Details
+## 📊 Model Details
 - Algorithm: Random Forest Classifier
 - Input: Photometric features (u, g, r, i, z, fluxes, radii, PSF mags, etc.)
 - Output: Galaxy subclass
@@ -111,21 +111,21 @@ python app/app.py
 - Model artifacts: scaler, label encoder, trained RF model
 
 ---
-##🗃️ Dataset Overview
+## 🗃️ Dataset Overview
 - Source: SDSS photometric survey
 - Shape: (100000, 43) features including magnitudes, fluxes, and radii
 - Classes: STARBURST, STARFORMING, AGN, etc.
 
 ---
 
-##📈 Insights Summary
+## 📈 Insights Summary
 - Random Forest performs well for photometric feature-based galaxy classification
 - Feature importance helps understand which bands and fluxes drive predictions
 - Web app allows easy real-time galaxy morphology prediction
 
 ---
 
-##🌟 Highlights
+## 🌟 Highlights
 - Full-stack AI project: ML + Web App
 - Real-time predictions with confidence
 - EDA & visualization for insights
